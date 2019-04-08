@@ -1,4 +1,4 @@
-FROM php:7.1-apache
+FROM php:7.2-apache
 
 RUN apt-get -y update
 
@@ -9,6 +9,8 @@ RUN apt-get install -y \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libxml2 \
     libxml2-dev \
     libedit-dev \
     libicu-dev \
@@ -17,13 +19,20 @@ RUN apt-get install -y \
     libc-client-dev \
     libkrb5-dev \
     uuid-dev \
-    rsyslog
+    libzip-dev \
+    zlib1g-dev \
+    g++ \
+    rsyslog \
+    mysql-client
 
 RUN docker-php-ext-install -j$(nproc) mcrypt \
     && docker-php-ext-configure gd --with-jpeg-dir=/usr/include/ \
         --with-png-dir=/usr/include --with-freetype-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd \
+    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) soap \
+    && docker-php-ext-install -j$(nproc) iconv \
+    && docker-php-ext-install -j$(nproc) pdo \
     && docker-php-ext-install -j$(nproc) pdo_mysql \
     && docker-php-ext-install -j$(nproc) mysqli \
     && docker-php-ext-install -j$(nproc) intl \
