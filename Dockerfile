@@ -23,6 +23,7 @@ RUN apt-get install -y \
     zlib1g-dev \
     g++ \
     rsyslog \
+    mysql-server \
     mysql-client
 
 RUN docker-php-ext-configure gd --with-jpeg-dir=/usr/include/ \
